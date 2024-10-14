@@ -2,7 +2,7 @@
 
 module V1
   module Users
-    class Products < PublicBase
+    class Products < Base
       resources :products do
         desc 'Get all products',
              summary: 'Get all products'
@@ -36,7 +36,7 @@ module V1
             status: params[:status]
           )
           if product.save
-            { message: 'Product created successfully', product: product }
+            format_response(product)
           else
             error!(product.errors.full_messages, 422)
           end
@@ -49,7 +49,7 @@ module V1
         end
         get ':id' do
           product = Product.find(params[:id])
-          present product
+          format_response(product)
         rescue ActiveRecord::RecordNotFound
           error!('Product not found', 404)
         end
@@ -71,7 +71,7 @@ module V1
             stock_quantity: params[:stock_quantity],
             status: params[:status]
           )
-            { message: 'Product updated successfully', product: product }
+            format_response(product)
           else
             error!(product.errors.full_messages, 422)
           end

@@ -2,7 +2,7 @@
 
 module V1
   module Users
-    class Categories < PublicBase
+    class Categories < Base
       resources :categories do
         desc 'Get all categories',
              summary: 'Get all categories'
@@ -28,7 +28,7 @@ module V1
         post do
           category = Category.new(category_name: params[:category_name])
           if category.save
-            { message: 'Category created successfully', category: category }
+            format_response(category)
           else
             error!(category.errors.full_messages, 422)
           end
@@ -41,7 +41,7 @@ module V1
         end
         get ':id' do
           category = Category.find(params[:id])
-          present category
+          format_response(category)
         rescue ActiveRecord::RecordNotFound
           error!('Category not found', 404)
         end
@@ -55,7 +55,7 @@ module V1
         put ':id' do
           category = Category.find(params[:id])
           if category.update(category_name: params[:category_name])
-            { message: 'Category updated successfully', category: category }
+            format_response(category)
           else
             error!(category.errors.full_messages, 422)
           end
