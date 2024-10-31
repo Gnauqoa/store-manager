@@ -1,0 +1,6 @@
+first_name,last_name,status,birth,phone,encryption_password,reset_password_token,reset_password_sent_at,remember_created_at,sign_in_count,current_sign_in_at,last_sign_in_at,current_sign_in_ip,last_sign_in_ip,created_at,updated_at
+"Nguyễn","Văn An",1,"1985-06-15 00:00:00","0901234567","encrypted_password_1",NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,"2024-01-01 12:00:00","2024-01-01 12:00:00"
+"Trần","Thị Thùy",1,"1990-03-22 00:00:00","0912345678","encrypted_password_2",NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,"2024-01-02 12:00:00","2024-01-02 12:00:00"
+"Lê","Minh Đức",0,"1988-12-10 00:00:00","0923456789","encrypted_password_3",NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,"2024-01-03 12:00:00","2024-01-03 12:00:00"
+"Phạm","Hương Giang",1,"1995-09-05 00:00:00","0934567890","encrypted_password_4",NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,"2024-01-04 12:00:00","2024-01-04 12:00:00"
+"Hoàng","Văn Kiên",1,"1982-11-20 00:00:00","0945678901","encrypted_password_5",NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,"2024-01-05 12:00:00","2024-01-05 12:00:00"

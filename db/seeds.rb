@@ -58,3 +58,14 @@ CSV.foreach(csv_file_path, headers: true) do |row|
     updated_at: row['updatedAt']
   )
 end
+
+CSV.foreach(Rails.root.join('db', 'seed_files', 'batches.csv'), headers: true) do |row|
+  Customer.create!({
+    first_name: row['first_name'],
+    last_name: row['last_name'],
+    status: row['status'].to_i,
+    birth: row['birth'],
+    phone: row['phone'],
+    password: '123123123@q'
+  })
+end
