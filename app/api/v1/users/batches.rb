@@ -31,6 +31,10 @@ module V1
           requires :manufacture_date, type: DateTime, desc: 'Manufacture date'
         end
         post do
+          if params[:quantity] <= 0
+            error!('Quantity must be greater than 0', 400)
+          end
+
           batch = Batch.new(
             product_id: params[:product_id],
             batch_number: params[:batch_number],
@@ -39,7 +43,12 @@ module V1
             expiration_date: params[:expiration_date],
             manufacture_date: params[:manufacture_date]
           )
+
           if batch.save
+            product = Product.find(params[:product_id])
+            new_stock_quantity = product.stockQuantity + params[:quantity]
+            product.update(stockQuantity: new_stock_quantity)
+
             format_response(batch)
           else
             error!(batch.errors.full_messages, 422)
@@ -51,6 +60,7 @@ module V1
         params do
           requires :id, type: Integer, desc: 'ID of the batch'
         end
+
         get ':id' do
           batch = Batch.find(params[:id])
           format_response(batch)
