@@ -8,7 +8,7 @@ GrapeSwaggerRails.options.hide_url_input        = true
 GrapeSwaggerRails.options.before_action do
   GrapeSwaggerRails.options.app_url = request.protocol + request.host_with_port
   case request.path
-  when '/v1-user-api-docs/'
+  when '/api-docs-v1/'
     GrapeSwaggerRails.options.url = '/api/user_swagger_doc_v1.json'
     authenticate_or_request_with_http_basic do |username, password|
       username == 'store' && password == '123456'

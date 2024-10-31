@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   mount V1::Users::Api => '/api'
 
-  mount GrapeSwaggerRails::Engine => '/v1-user-api-docs'
+  mount GrapeSwaggerRails::Engine => '/api-docs-v1'
 
   # devise_for :admin_users, controllers: {
   #   sessions: 'admin_users/sessions'
