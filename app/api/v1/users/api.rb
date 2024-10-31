@@ -8,7 +8,8 @@ module V1
       mount Categories
       mount Products
       mount Batches
-      
+      mount Customers
+
       add_swagger_documentation hide_documentation_path: true,
                                 mount_path: "/user_swagger_doc_v1",
                                 doc_version: '0.0.1',
