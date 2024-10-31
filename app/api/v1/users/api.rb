@@ -9,6 +9,7 @@ module V1
       mount Products
       mount Batches
       mount Customers
+      mount Orders
 
       add_swagger_documentation hide_documentation_path: true,
                                 mount_path: "/user_swagger_doc_v1",
