@@ -7,7 +7,7 @@ module V1
         desc 'Get all batches',
              summary: 'Get all batches'
         params do
-          optional :search, type: String, desc: 'Search batch by batch number'
+          optional :batch_number, type: String, desc: 'Search batch by batch number'
           optional :page, type: Integer, desc: 'Page number'
           optional :per_page, type: Integer, desc: 'Per page number'
         end
