@@ -58,6 +58,7 @@ module V1
             OrderItem.create!(
               order_id: order.id,
               batch_id: batch.id,
+              product_id: product.id,
               quantity: item[:quantity],
               price: batch.price,
               created_at: Time.now,

@@ -3,5 +3,5 @@
 class ProductSerializer < ActiveModel::Serializer
   attributes :id, :product_name, :created_at, :updated_at, :status
   belongs_to :category
-  has_many :batches
+  has_many :batches, serializer: ProductBatchSerializer
 end
