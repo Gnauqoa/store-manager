@@ -7,22 +7,19 @@ module V1
         desc 'Create a new order',
              summary: 'Create a new order'
         params do
-          requires :user_id, type: Integer, desc: 'ID of the customer'
-          requires :items, type: Array do
-            requires :batch_id, type: Integer, desc: 'Batch ID'
-            requires :quantity, type: Integer, desc: 'Quantity of the product', values: ->(val) { val > 0 }
+          requires :customer_id, type: Integer, desc: 'ID of the customer', allow_blank: false, example: 123
+          requires :items, type: Array[JSON], desc: 'List of order items' do
+            requires :batch_id, type: Integer, desc: 'Batch ID', allow_blank: false, example: 456
+            requires :quantity, type: Integer, desc: 'Quantity of the product', values: ->(val) { val > 0 }, allow_blank: false, example: 2
           end
         end
         post do
-          begin
-            order = ::V1::Orders::Create.call(params: declared(params))
-            
-            format_response(order)
+          order = ::V1::Orders::Create.call(params: declared(params))
+          format_response(order)
           rescue StandardError => e
             error!(e.message, 400)
           end
         end
-      end
     end
   end
 end

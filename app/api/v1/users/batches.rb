@@ -8,15 +8,14 @@ module V1
              summary: 'Get all batches'
         params do
           optional :batch_number, type: String, desc: 'Search batch by batch number'
+          optional :product_id, type: Integer, desc: 'Search batch by product ID'
           optional :page, type: Integer, desc: 'Page number'
           optional :per_page, type: Integer, desc: 'Per page number'
         end
         get do
-          batches = if params[:search].present?
-                      Batch.where('batch_number LIKE ?', "%#{params[:search]}%")
-                    else
-                      Batch.all
-                    end
+          batches = Batch.all
+          batches = batches.where(batch_number: params[:batch_number]) if params[:batch_number].present?
+          batches = batches.where(product_id: params[:product_id]) if params[:product_id].present?
           paginated_response(batches)
         end
 

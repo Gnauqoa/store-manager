@@ -7,12 +7,12 @@ module V1
         desc 'Get all categories',
              summary: 'Get all categories'
         params do
-          optional :search, type: String, desc: 'Search category by name'
+          optional :category_name, type: String, desc: 'Search category by name'
           optional :page, type: Integer, desc: 'Page number'
           optional :per_page, type: Integer, desc: 'Per page number'
         end
         get do
-          categories = if params[:search].present?
+          categories = if params[:category_name].present?
                          Category.where('category_name LIKE ?', "%#{params[:search]}%")
                        else
                          Category.all

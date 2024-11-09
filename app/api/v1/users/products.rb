@@ -7,12 +7,12 @@ module V1
         desc 'Get all products',
              summary: 'Get all products'
         params do
-          optional :search, type: String, desc: 'Search product by name'
+          optional :product_name, type: String, desc: 'Search product by name'
           optional :page, type: Integer, desc: 'Page number'
           optional :per_page, type: Integer, desc: 'Per page number'
         end
         get do
-          products = if params[:search].present?
+          products = if params[:product_name].present?
                        Product.joins(:category).where('products.product_name LIKE ?', "%#{params[:search]}%")
                      else
                        Product.all
