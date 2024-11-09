@@ -11,6 +11,8 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable
 
+  has_many :orders
+        
   def initialize(*args)
     super(*args)
 
