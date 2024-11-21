@@ -28,7 +28,6 @@ module V1
         params do
           requires :product_name, type: String, desc: 'Name of the product'
           requires :category_id, type: Integer, desc: 'ID of the category'
-          requires :stock_quantity, type: Integer, desc: 'Total stock quantity'
           optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
           optional :image, type: File, desc: 'Image of the product'
         end
@@ -36,7 +35,6 @@ module V1
           product = Product.new(
             product_name: params[:product_name],
             category_id: params[:category_id],
-            stock_quantity: params[:stock_quantity],
             status: params[:status]
           )
           product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) if params[:image].present?
@@ -65,24 +63,22 @@ module V1
              consumes: ['multipart/form-data']
         params do
           requires :id, type: Integer, desc: 'ID of the product'
-          requires :product_name, type: String, desc: 'New name of the product'
+          optional :product_name, type: String, desc: 'New name of the product'
           optional :category_id, type: Integer, desc: 'ID of the category'
-          optional :stock_quantity, type: Integer, desc: 'Total stock quantity'
           optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
           optional :image, type: File, desc: 'Image of the product'
         end
         put ':id' do
           product = Product.find(params[:id])
-        
-          product.assign_attributes(
+
+          product.update(
             product_name: params[:product_name],
-            category_id: params[:category_id],
-            stock_quantity: params[:stock_quantity],
+            category_id: params[:category_id] ? params[:category_id] : product.category_id,
             status: params[:status]
           )
         
           if params[:image].present?
-            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename], content_type: params[:image][:type])
+            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename])
           end
         
           if product.save
