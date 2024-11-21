@@ -16,6 +16,11 @@ class User < ApplicationRecord
   validates_format_of :email, with: Devise.email_regexp, if: -> { email.present? }
   validates_format_of :username, with: /\A[\w\d_.]*\z/i, if: -> { username.present? }
 
+  enum role: { 
+    employee: 0,
+    admin: 1 
+  }
+
   def initialize(*args)
     super(*args)
     self.username = SecureRandom.hex[0..19] unless username
