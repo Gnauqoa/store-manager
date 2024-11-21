@@ -5,6 +5,7 @@ module V1
 
       mount Profile
       mount Users
+      mount ManagerUsers
       mount Categories
       mount Products
       mount Batches
