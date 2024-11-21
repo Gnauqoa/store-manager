@@ -23,8 +23,8 @@ module V1
         end
 
         desc 'Create a new product',
-          summary: 'Create a new product',
-          consumes: ['multipart/form-data']
+             summary: 'Create a new product',
+             consumes: ['multipart/form-data']
         params do
           requires :product_name, type: String, desc: 'Name of the product'
           requires :category_id, type: Integer, desc: 'ID of the category'
@@ -61,7 +61,8 @@ module V1
         end
 
         desc 'Update a product',
-             summary: 'Update a product'
+             summary: 'Update a product',
+             consumes: ['multipart/form-data']
         params do
           requires :id, type: Integer, desc: 'ID of the product'
           requires :product_name, type: String, desc: 'New name of the product'
