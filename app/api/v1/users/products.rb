@@ -3,6 +3,8 @@
 module V1
   module Users
     class Products < Base
+      include Rails.application.routes.url_helpers
+
       resources :products do
         desc 'Get all products',
              summary: 'Get all products'
@@ -13,7 +15,7 @@ module V1
         end
         get do
           products = if params[:product_name].present?
-                       Product.joins(:category).where('products.product_name LIKE ?', "%#{params[:search]}%")
+                       Product.joins(:category).where('products.product_name LIKE ?', "%#{params[:product_name]}%")
                      else
                        Product.all
                      end
@@ -21,12 +23,14 @@ module V1
         end
 
         desc 'Create a new product',
-             summary: 'Create a new product'
+          summary: 'Create a new product',
+          consumes: ['multipart/form-data']
         params do
           requires :product_name, type: String, desc: 'Name of the product'
           requires :category_id, type: Integer, desc: 'ID of the category'
           requires :stock_quantity, type: Integer, desc: 'Total stock quantity'
-          requires :status, type: Integer, desc: 'Status of the product'
+          optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
+          optional :image, type: File, desc: 'Image of the product'
         end
         post do
           product = Product.new(
@@ -35,6 +39,8 @@ module V1
             stock_quantity: params[:stock_quantity],
             status: params[:status]
           )
+          product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) if params[:image].present?
+
           if product.save
             format_response(product)
           else
@@ -61,16 +67,24 @@ module V1
           requires :product_name, type: String, desc: 'New name of the product'
           optional :category_id, type: Integer, desc: 'ID of the category'
           optional :stock_quantity, type: Integer, desc: 'Total stock quantity'
-          optional :status, type: Integer, desc: 'Status of the product'
+          optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
+          optional :image, type: File, desc: 'Image of the product'
         end
         put ':id' do
           product = Product.find(params[:id])
-          if product.update(
+        
+          product.assign_attributes(
             product_name: params[:product_name],
             category_id: params[:category_id],
             stock_quantity: params[:stock_quantity],
             status: params[:status]
           )
+        
+          if params[:image].present?
+            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename], content_type: params[:image][:type])
+          end
+        
+          if product.save
             format_response(product)
           else
             error!(product.errors.full_messages, 422)

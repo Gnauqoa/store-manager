@@ -27,7 +27,7 @@ CSV.foreach(csv_file_path, headers: true) do |row|
     next
   end
 
-  Product.create(
+  product = Product.create(
     id: row['id'],
     category_id: row['categoryId'],
     product_name: row['productName'],
@@ -36,6 +36,8 @@ CSV.foreach(csv_file_path, headers: true) do |row|
     created_at: row['createdAt'],
     updated_at: row['updatedAt']
   )
+
+
 end
 
 csv_file_path = Rails.root.join('db', 'seed_files', 'batches.csv')
