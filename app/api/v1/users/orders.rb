@@ -32,6 +32,8 @@ module V1
           requires :items, type: Array[JSON], desc: 'List of order items' do
             requires :batch_id, type: Integer, desc: 'Batch ID', allow_blank: false, example: 456
             requires :quantity, type: Integer, desc: 'Quantity of the product', values: ->(val) { val > 0 }, allow_blank: false, example: 2
+          optional :status, type: String, desc: 'Status of the order', values: %w[pending completed], default: 'completed'
+          optional :discount, type: Float, desc: 'Discount of the order', values: ->(val) { val >= 0 }, default: 0
           end
         end
         post do
