@@ -21,6 +21,10 @@ class User < ApplicationRecord
     admin: 1 
   }
 
+  has_many :orders, foreign_key: :customer_id, dependent: :destroy
+  has_many :created_orders, class_name: 'Order', foreign_key: :created_by, dependent: :nullify
+  has_many :point_transactions, foreign_key: :customer_id, dependent: :destroy
+
   def initialize(*args)
     super(*args)
     self.username = SecureRandom.hex[0..19] unless username
