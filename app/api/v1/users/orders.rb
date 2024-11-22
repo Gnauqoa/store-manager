@@ -29,15 +29,21 @@ module V1
              summary: 'Create a new order'
         params do
           requires :customer_id, type: Integer, desc: 'ID of the customer', allow_blank: false, example: 123
+          optional :status, type: String, desc: 'Status of the order', values: %w[completed pending], default: 'completed'
+          optional :discount, type: Integer, desc: 'Discount of the order', default: 0
           requires :items, type: Array[JSON], desc: 'List of order items' do
             requires :batch_id, type: Integer, desc: 'Batch ID', allow_blank: false, example: 456
             requires :quantity, type: Integer, desc: 'Quantity of the product', values: ->(val) { val > 0 }, allow_blank: false, example: 2
-          optional :status, type: String, desc: 'Status of the order', values: %w[pending completed], default: 'completed'
-          optional :discount, type: Float, desc: 'Discount of the order', values: ->(val) { val >= 0 }, default: 0
           end
         end
         post do
-          order = ::V1::Orders::Create.call(params: declared(params))
+          order = ::V1::Orders::Create.call(
+            customer_id: params[:customer_id],
+            status: params[:status],
+            discount: params[:discount],
+            items: params[:items],
+            created_by: current_user
+          )
           format_response(order)
           rescue StandardError => e
             error!(e.message, 400)
