@@ -5,6 +5,8 @@ module V1
       def initialize(params:)
         @customer_id = params[:customer_id]
         @items = params[:items]
+        @status = params[:status]
+        @discount = params[:discount]
       end
 
       def call
@@ -24,18 +26,14 @@ module V1
             customer_id: customer_id,
             order_date: Time.now,
             total_amount: 0,
-            status: :completed
+            status:
           )
 
           total_amount = 0
     
           # Duyệt qua từng item trong order
-          Rails.logger.info("items: #{order.inspect}")
           items.each do |item|
-            Rails.logger.info("item: #{item}")
-            Rails.logger.info("batch_id: #{item[:batch_id]}")
             batch = Batch.find(item[:batch_id])
-            Rails.logger.info("batch: #{batch.inspect}")
 
             # Kiểm tra số lượng batch
             if batch.quantity < item[:quantity]
@@ -65,7 +63,27 @@ module V1
               updated_at: Time.now
             )
           end
-    
+
+          if (discount > 0) 
+            if (discount > user.points)
+              raise "User does not have enough points"
+            else
+              V1::PointTransactions::Create.call(
+                customer_id: customer_id, 
+                point_amount: -discount, 
+                description: "Used #{discount} points for order with id #{order.id}"
+              )
+            end
+            total_amount -= discount
+          else
+            V1::PointTransactions::Create.call(
+              customer_id: customer_id, 
+              point_amount: calculate_point(total_amount), 
+              description: "Earned #{point} points from order with id #{order.id}"
+            )
+          end
+
+
           # Cập nhật tổng tiền cho order
           order.update!(total_amount: total_amount)
           return order
@@ -73,6 +91,12 @@ module V1
           raise ActiveRecord::Rollback, e.message
         end
       end
+
+      def calculate_point(total_amount)
+        # Tính điểm cho khách hàng
+        point = total_amount / 1000
+        point
+      end 
     end
   end
 end
