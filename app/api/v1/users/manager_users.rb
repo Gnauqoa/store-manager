@@ -40,7 +40,7 @@ module V1
         requires :first_name, type: String, desc: 'First name'
         requires :last_name, type: String, desc: 'Last name'
         requires :birth, type: Date, desc: 'Birth date'
-        optional :role, type: String, values: User.roles.keys, desc: 'Role of the user', default: 'customer'
+        optional :role, type: String, values: User.roles.keys, desc: 'Role of the user', default: 'employee'
       end
       post do
         return error!("Email already exists", 422) if User.find_by_email(params[:email])

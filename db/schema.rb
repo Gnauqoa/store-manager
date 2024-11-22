@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_22_040447) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_22_043023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_040447) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "points", precision: 10, scale: 2, default: "0.0"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -111,6 +112,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_040447) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.index ["created_by_id"], name: "index_point_transactions_on_created_by_id"
     t.index ["customer_id"], name: "index_point_transactions_on_customer_id"
     t.index ["order_id"], name: "index_point_transactions_on_order_id"
   end
@@ -144,7 +147,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_040447) do
     t.string "phone"
     t.date "birth"
     t.integer "role", default: 0
-    t.decimal "points", precision: 10, scale: 2, default: "0.0"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -156,5 +158,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_040447) do
   add_foreign_key "orders", "users", column: "created_by_id"
   add_foreign_key "point_transactions", "customers"
   add_foreign_key "point_transactions", "orders"
+  add_foreign_key "point_transactions", "users", column: "created_by_id"
   add_foreign_key "products", "categories"
 end

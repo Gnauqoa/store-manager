@@ -6,6 +6,7 @@ module V1
         @customer_id = params[:customer_id]
         @point_amount = params[:point_amount]
         @description = params[:description]
+        @created_by_id = params[:created_by_id]
       end
 
       def call
@@ -14,7 +15,7 @@ module V1
 
       private
 
-      attr_reader :customer_id, :point_amount, :description
+      attr_reader :customer_id, :point_amount, :description, :created_by_id
 
       def create_point_transaction
         ActiveRecord::Base.transaction do
@@ -23,12 +24,13 @@ module V1
             customer_id:,
             points: point_amount,
             transaction_type: point_amount > 0 ? :credit : :debit,
-            description:
+            description:,
+            created_by_id: created_by_id
           )
 
           # Cập nhật số điểm của user
-          user = User.find(customer_id)
-          user.update!(points: user.points + point_amount)
+          customer = Customer.find(customer_id)
+          customer.update!(points: customer.points + point_amount)
 
           point_transaction
         end

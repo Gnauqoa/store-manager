@@ -31,7 +31,7 @@ module V1
             created_by_id: created_by.id,
           )
 
-          customer = User.find(customer_id)
+          customer = Customer.find(customer_id)
           
           if customer.nil?
             raise "Customer with does not exist"
@@ -81,7 +81,8 @@ module V1
               V1::PointTransactions::Create.call(
                 customer_id: customer_id, 
                 point_amount: -discount, 
-                description: "Used #{discount} points for order with id #{order.id}"
+                description: "Used #{discount} points for order with id #{order.id}",
+                created_by_id: created_by.id
               )
             end
             total_amount -= discount
@@ -90,7 +91,8 @@ module V1
             V1::PointTransactions::Create.call(
               customer_id: customer_id, 
               point_amount: point, 
-              description: "Earned #{point} points from order with id #{order.id}"
+              description: "Earned #{point} points from order with id #{order.id}",
+              created_by_id: created_by.id
             )
           end
 

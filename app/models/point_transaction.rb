@@ -1,7 +1,8 @@
 class PointTransaction < ApplicationRecord
   # Associations
-  belongs_to :customer, class_name: 'User', foreign_key: 'customer_id'
+  belongs_to :customer
   belongs_to :order, optional: true
+  belongs_to :created_by, class_name: 'User', optional: true
 
   # Enum for transaction types
   enum transaction_type: { 

@@ -19,7 +19,6 @@ class User < ApplicationRecord
   enum role: { 
     employee: 0,
     admin: 1,
-    customer: 2
   }
 
   has_many :orders, foreign_key: :customer_id, dependent: :destroy
