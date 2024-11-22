@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_22_022701) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_22_040447) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_022701) do
   create_table "batches", force: :cascade do |t|
     t.bigint "product_id"
     t.string "batch_number"
-    t.integer "quantity"
+    t.integer "quantity", default: 0
     t.decimal "price", precision: 10, scale: 2
     t.datetime "expiration_date", precision: nil
     t.datetime "manufacture_date", precision: nil
@@ -107,7 +107,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_022701) do
     t.bigint "customer_id", null: false
     t.bigint "order_id"
     t.integer "transaction_type", null: false
-    t.integer "points", null: false
+    t.decimal "points", precision: 10, scale: 2, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -118,7 +118,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_022701) do
   create_table "products", force: :cascade do |t|
     t.bigint "category_id"
     t.string "product_name"
-    t.integer "stock_quantity"
+    t.integer "stock_quantity", default: 0
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -144,7 +144,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_022701) do
     t.string "phone"
     t.date "birth"
     t.integer "role", default: 0
-    t.integer "points", default: 0
+    t.decimal "points", precision: 10, scale: 2, default: "0.0"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
