@@ -37,7 +37,11 @@ module V1
             category_id: params[:category_id],
             status: params[:status]
           )
-          product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) if params[:image].present?
+
+          if params[:image].present?
+            product.image.purge # Remove the existing image
+            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) 
+          end
 
           if product.save
             format_response(product)
@@ -78,7 +82,8 @@ module V1
           )
         
           if params[:image].present?
-            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename])
+            product.image.purge # Remove the existing image
+            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) 
           end
         
           if product.save
