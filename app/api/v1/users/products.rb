@@ -82,7 +82,7 @@ module V1
           )
         
           if params[:image].present?
-            product.image.purge # Remove the existing image
+            # product.image.purge # Remove the existing image
             product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) 
           end
         
