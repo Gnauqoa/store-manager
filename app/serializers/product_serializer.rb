@@ -7,7 +7,7 @@ class ProductSerializer < ActiveModel::Serializer
   belongs_to :category
   has_many :batches, serializer: ProductBatchSerializer
 
-  def image_url
+  def create_image_url
     return nil unless object.image.attached?
 
     return object.image.url if active_storage_provider == :cloudinary

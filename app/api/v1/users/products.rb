@@ -6,6 +6,23 @@ module V1
       include Rails.application.routes.url_helpers
 
       resources :products do
+        desc 'Get upload product image signature',
+              summary: 'Get upload product image signature'
+        get ':id/upload_image_signature' do
+          product = Product.find(params[:id])
+
+          if product.nil?
+            error!('Product not found', 404)
+          end
+
+          service = V1::Cloudinary::GenerateSignature.call(
+            public_id: 'products/' + product.id.to_s,
+          )
+
+          format_response(service)
+        end
+
+
         desc 'Get all products',
              summary: 'Get all products'
         params do
@@ -29,7 +46,7 @@ module V1
           requires :product_name, type: String, desc: 'Name of the product'
           requires :category_id, type: Integer, desc: 'ID of the category'
           optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
-          optional :image, type: File, desc: 'Image of the product'
+
         end
         post do
           product = Product.new(
@@ -37,11 +54,6 @@ module V1
             category_id: params[:category_id],
             status: params[:status]
           )
-
-          if params[:image].present?
-            product.image.purge # Remove the existing image
-            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) 
-          end
 
           if product.save
             format_response(product)
@@ -70,7 +82,7 @@ module V1
           optional :product_name, type: String, desc: 'New name of the product'
           optional :category_id, type: Integer, desc: 'ID of the category'
           optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
-          optional :image, type: File, desc: 'Image of the product'
+          optional :image_url, type: String, desc: 'Image of the product'
         end
         put ':id' do
           product = Product.find(params[:id])
@@ -78,13 +90,9 @@ module V1
           product.update(
             product_name: params[:product_name],
             category_id: params[:category_id] ? params[:category_id] : product.category_id,
-            status: params[:status]
+            status: params[:status],
+            image_url: params[:image_url]
           )
-        
-          if params[:image].present?
-            # product.image.purge # Remove the existing image
-            product.image.attach(io: params[:image][:tempfile], filename: params[:image][:filename]) 
-          end
         
           if product.save
             format_response(product)
