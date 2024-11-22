@@ -30,7 +30,8 @@ module V1
         end
 
       desc 'Create User',
-      summary: 'Create a user'
+      summary: 'Create a user',
+      consumes: ['multipart/form-data']
       params do
         optional :username, type: String, regexp: /\A[a-z0-9_]{4,16}\z/, desc: 'Username'
         requires :email, type: String, regexp: URI::MailTo::EMAIL_REGEXP,
@@ -39,6 +40,7 @@ module V1
         requires :first_name, type: String, desc: 'First name'
         requires :last_name, type: String, desc: 'Last name'
         requires :birth, type: Date, desc: 'Birth date'
+        optional :role, type: String, values: User.roles.keys, desc: 'Role of the user', default: 'customer'
       end
       post do
         return error!("Email already exists", 422) if User.find_by_email(params[:email])
