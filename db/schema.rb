@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_21_163938) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_22_010449) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -98,7 +98,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_163938) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.bigint "created_by_id"
+    t.index ["created_by_id"], name: "index_orders_on_created_by_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
+  end
+
+  create_table "point_transactions", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "order_id"
+    t.integer "transaction_type", null: false
+    t.integer "points", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_point_transactions_on_customer_id"
+    t.index ["order_id"], name: "index_point_transactions_on_order_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -138,5 +152,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_163938) do
   add_foreign_key "order_items", "batches"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "customers"
+  add_foreign_key "orders", "users", column: "created_by_id"
+  add_foreign_key "point_transactions", "customers"
+  add_foreign_key "point_transactions", "orders"
   add_foreign_key "products", "categories"
 end
