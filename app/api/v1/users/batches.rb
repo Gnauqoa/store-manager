@@ -26,6 +26,7 @@ module V1
           requires :batch_number, type: String, desc: 'Batch number'
           requires :quantity, type: Integer, desc: 'Quantity in the batch'
           requires :price, type: BigDecimal, desc: 'Price of the batch'
+          requires :import_price, type: BigDecimal, desc: 'Import price of the batch'
           requires :expiration_date, type: DateTime, desc: 'Expiration date'
           requires :manufacture_date, type: DateTime, desc: 'Manufacture date'
         end
@@ -38,6 +39,7 @@ module V1
             product_id: params[:product_id],
             batch_number: params[:batch_number],
             quantity: params[:quantity],
+            stock: params[:quantity],
             price: params[:price],
             expiration_date: params[:expiration_date],
             manufacture_date: params[:manufacture_date]
@@ -75,6 +77,7 @@ module V1
           requires :batch_number, type: String, desc: 'Batch number'
           optional :quantity, type: Integer, desc: 'Quantity in the batch'
           optional :price, type: BigDecimal, desc: 'Price of the batch'
+          optional :import_price, type: BigDecimal, desc: 'Import price of the batch'
           optional :expiration_date, type: DateTime, desc: 'Expiration date'
           optional :manufacture_date, type: DateTime, desc: 'Manufacture date'
         end

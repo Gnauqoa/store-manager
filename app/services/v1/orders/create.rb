@@ -44,13 +44,13 @@ module V1
             batch = Batch.find(item[:batch_id])
 
             # Kiểm tra số lượng batch
-            if batch.quantity < item[:quantity]
+            if batch.stock < item[:quantity]
               raise "Batch with id #{item[:batch_id]} does not have enough quantity"
             end
     
             # Cập nhật lại số lượng của batch
-            new_batch_quantity = batch.quantity - item[:quantity]
-            batch.update!(quantity: new_batch_quantity)
+            new_batch_quantity = batch.stock - item[:quantity]
+            batch.update!(stock: new_batch_quantity)
     
             # Tìm sản phẩm tương ứng và cập nhật số lượng sản phẩm tổng
             product = Product.find(batch.product_id)
