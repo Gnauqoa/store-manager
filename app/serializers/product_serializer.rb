@@ -8,7 +8,7 @@ class ProductSerializer < ActiveModel::Serializer
   has_many :batches, serializer: ProductBatchSerializer
 
   def uint 
-    o bject.uint || 'cái'
+    object.uint || 'cái'
   end
 
   def create_image_url
