@@ -46,7 +46,7 @@ module V1
           requires :product_name, type: String, desc: 'Name of the product'
           requires :category_id, type: Integer, desc: 'ID of the category'
           optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
-          optional :uint, type: String, desc: 'Unit of the product'
+          optional :unit, type: String, desc: 'Unit of the product'
         end
         post do
           product = Product.new(
@@ -83,7 +83,7 @@ module V1
           optional :category_id, type: Integer, desc: 'ID of the category'
           optional :status, type: String, desc: 'status: active/disabled', values: %w[active disabled], default: 'active'
           optional :image_url, type: String, desc: 'Image of the product'
-          optional :uint, type: String, desc: 'Unit of the product'
+          optional :unit, type: String, desc: 'Unit of the product'
         end
         put ':id' do
           product = Product.find(params[:id])

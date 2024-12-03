@@ -1,5 +1,5 @@
-class AddUintToProducts < ActiveRecord::Migration[7.1]
+class AddunitToProducts < ActiveRecord::Migration[7.1]
   def change
-    add_column :products, :uint, :string
+    add_column :products, :unit, :string
   end
 end

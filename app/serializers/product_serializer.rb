@@ -3,12 +3,12 @@
 class ProductSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :product_name, :status, :image_url, :uint, :created_at, :updated_at
+  attributes :id, :product_name, :status, :image_url, :unit, :created_at, :updated_at
   belongs_to :category
   has_many :batches, serializer: ProductBatchSerializer
 
-  def uint 
-    object.uint || 'cái'
+  def unit 
+    object.unit || 'cái'
   end
 
   def create_image_url

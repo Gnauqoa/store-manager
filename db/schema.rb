@@ -126,7 +126,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_03_043142) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_url"
-    t.string "uint"
+    t.string "unit"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
