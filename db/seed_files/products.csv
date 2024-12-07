@@ -1,4 +1,4 @@
-id,categoryId,productName,stockQuantity,status,createdAt,updatedAt
+id,categoryId,productName,stock_quantity,status,createdAt,updatedAt
 1,1,Nước ngọt,100,1,2024-10-01 12:00:00,2024-10-01 12:00:00
 2,2,Chuối,50,1,2024-10-01 12:00:00,2024-10-01 12:00:00
 3,3,Sữa tươi,200,1,2024-10-01 12:00:00,2024-10-01 12:00:00

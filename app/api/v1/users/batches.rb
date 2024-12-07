@@ -47,8 +47,8 @@ module V1
 
           if batch.save
             product = Product.find(params[:product_id])
-            new_stock_quantity = product.stockQuantity + params[:quantity]
-            product.update(stockQuantity: new_stock_quantity)
+            new_stock_quantity = product.stock_quantity + params[:quantity]
+            product.update(stock_quantity: new_stock_quantity)
 
             format_response(batch)
           else

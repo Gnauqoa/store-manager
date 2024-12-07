@@ -31,7 +31,7 @@ CSV.foreach(csv_file_path, headers: true) do |row|
     id: row['id'],
     category_id: row['categoryId'],
     product_name: row['productName'],
-    stock_quantity: row['stockQuantity'],
+    stock_quantity: row['stock_quantity'],
     status: row['status'],
     created_at: row['createdAt'],
     updated_at: row['updatedAt']
