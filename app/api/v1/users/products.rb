@@ -52,7 +52,8 @@ module V1
           product = Product.new(
             product_name: params[:product_name],
             category_id: params[:category_id],
-            status: params[:status]
+            status: params[:status],
+            unit: params[:unit]
           )
 
           if product.save
@@ -93,6 +94,7 @@ module V1
             category_id: params[:category_id] ? params[:category_id] : product.category_id,
             status: params[:status],
             image_url: params[:image_url]
+            unit: params[:unit]
           )
         
           if product.save
